@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Header con menú hamburguesa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      transition: all 0.5s ease;
+      background: #000;
+      padding: 20px;
+    }
+
+    header.scrolled {
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 12px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav img {
+      height: 60px;
+      width: auto;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul.desktop {
+      display: none; /* oculto en móviles */
+      gap: 30px;
+    }
+
+    ul.desktop li a {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: white;
+      transition: opacity 0.3s;
+    }
+
+    ul.desktop li a:hover {
+      opacity: 0.7;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: block;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease;
+      background: #000;
+    }
+
+    .mobile-menu.open {
+      max-height: 500px;
+      opacity: 1;
+    }
+
+    .mobile-menu ul {
+      display: block;
+      padding: 20px;
+    }
+
+    .mobile-menu li {
+      margin-bottom: 15px;
+    }
+
+    .mobile-menu ul li a {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: white;
+      transition: opacity 0.3s;
+    }
+
+    .mobile-menu ul li a:hover {
+      opacity: 0.7;
+    }
+
+    @media(min-width:768px) {
+      .menu-btn { display: none; }
+      ul.desktop { display: flex; }
+      .mobile-menu { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="container">
+      <nav>
+        <!-- Logo -->
+        <a href="#home"><img src="logo.jpg" alt="Decobay Interiors"></a>
+
+        <!-- Desktop Navigation -->
+        <ul class="desktop">
+          <li><a href="#home">Architectural Designs</a></li>
+          <li><a href="#about">Interior Designs</a></li>
+          <li><a href="#portfolio">Residential</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Virtual Design</a></li>
+          <li><a href="#hikeq">HikeQ</a></li>
+        </ul>
+
+        <!-- Mobile Menu Button -->
+        <button class="menu-btn" id="menuBtn">&#9776;</button>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" id="mobileMenu">
+        <ul>
+          <li><a href="#home">Architectural Designs</a></li>
+          <li><a href="#about">Interior Designs</a></li>
+          <li><a href="#portfolio">Residential</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Virtual Design</a></li>
+          <li><a href="#hikeq">HikeQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <script>
+    const header = document.getElementById('header');
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    // Detect scroll
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Toggle mobile menu
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      menuBtn.textContent = mobileMenu.classList.contains('open') ? '✖' : '☰';
+    });
+  </script>
+</body>
+</html>
+

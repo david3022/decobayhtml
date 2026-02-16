@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
+    <title>Decobay Designs</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: all 0.5s ease;
+            background: #000;
+            padding: 20px;
+        }
+
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        ul.desktop {
+            display: none;
+            /* oculto en móviles */
+            gap: 30px;
+            margin-left: auto;
+            /* empuja el menú a la derecha */
+        }
+
+
+        nav img {
+            height: 60px;
+            width: auto;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+        ul.desktop li a {
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: white;
+            transition: opacity 0.3s;
+        }
+
+        ul.desktop li a:hover {
+            opacity: 0.7;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: #000;
+        }
+
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .mobile-menu ul {
+            display: block;
+            padding: 20px;
+        }
+
+        .mobile-menu li {
+            margin-bottom: 15px;
+        }
+
+        .mobile-menu ul li a {
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: white;
+            transition: opacity 0.3s;
+        }
+
+        .mobile-menu ul li a:hover {
+            opacity: 0.7;
+        }
+
+        @media(min-width:768px) {
+            .menu-btn {
+                display: none;
+            }
+
+            ul.desktop {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+
+        section.hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Fondo con efecto parallax */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            transform: scale(1.1);
+            animation: zoomOut 1.5s ease-out forwards;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+        }
+
+        @keyframes zoomOut {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Contenido */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-content span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s 0.3s forwards;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s 0.5s forwards;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-content h1 span {
+            font-style: italic;
+        }
+
+        .hero-content p {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s 0.7s forwards;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s 0.9s forwards;
+        }
+
+        .hero-buttons a {
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            padding: 12px 24px;
+            border-radius: 4px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-outline {
+            border: 2px solid #3498db;
+            color: #3498db;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Indicador scroll */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            animation: fadeIn 0.8s 1.2s forwards;
+        }
+
+        .scroll-indicator span {
+            display: inline-block;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        @media(min-width:768px) {
+            .hero-buttons {
+                flex-direction: row;
+            }
+
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+        }
+
+
+        section.about {
+            padding: 100px 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media(min-width:1024px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Imagen con parallax */
+        .image-wrapper {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .image-wrapper.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 110%;
+            object-fit: cover;
+            transition: transform 0.3s ease-out;
+        }
+
+        .decorative-frame {
+            position: absolute;
+            bottom: -24px;
+            right: -24px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(218, 165, 32, 0.3);
+            /* gold/30 */
+            z-index: -1;
+        }
+
+        /* Contenido */
+        .content {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .content.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .content span {
+            color: goldenrod;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .content h2 span {
+            font-style: italic;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: goldenrod;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .stat {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .stat.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: goldenrod;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 0.1em;
+        }
+
+
+
+        section.portfolio-portfolio {
+            padding: 100px 20px;
+            overflow: hidden;
+        }
+
+        .header-portfolio {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp-portfolio 0.8s forwards;
+        }
+
+        .header-portfolio span {
+            color: goldenrod;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .header-portfolio h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .header-portfolio h2 span {
+            font-style: italic;
+        }
+
+        .header-portfolio p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Carousel */
+        .carousel-portfolio {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track-portfolio {
+            display: flex;
+            transition: transform 0.6s ease;
+        }
+
+        .slide-portfolio {
+            flex: 0 0 85%;
+            margin-right: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp-portfolio 0.6s forwards;
+        }
+
+        @media(min-width:768px) {
+            .slide-portfolio {
+                flex: 0 0 45%;
+            }
+        }
+
+        @media(min-width:1024px) {
+            .slide-portfolio {
+                flex: 0 0 35%;
+            }
+        }
+
+        .slide-portfolio img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .slide-portfolio:hover img {
+            transform: scale(1.05);
+        }
+
+        .slide-portfolio span {
+            color: goldenrod;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .slide-portfolio h3 {
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .slide-portfolio:hover h3 {
+            color: goldenrod;
+        }
+
+        /* Navigation buttons */
+        .nav-buttons-portfolio {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .nav-buttons-portfolio button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            background: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-buttons-portfolio button:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        /* Dots */
+        .dots-portfolio {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dots-portfolio button {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ccc;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dots-portfolio button.active-portfolio {
+            background: goldenrod;
+            width: 24px;
+        }
+
+        @keyframes fadeUp-portfolio {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        section.services-services {
+            padding: 100px 20px;
+        }
+
+        .header-services {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp-services 0.8s forwards;
+        }
+
+        .header-services span {
+            color: goldenrod;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .header-services h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .header-services h2 span {
+            font-style: italic;
+        }
+
+        .header-services p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Grid */
+        .grid-services {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media(min-width:768px) {
+            .grid-services {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(min-width:1024px) {
+            .grid-services {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .card-services {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp-services 0.6s forwards;
+        }
+
+        .card-services:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .icon-services {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #fdfaf6;
+            /* bg-cream */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.5s;
+        }
+
+        .card-services:hover .icon-services {
+            background: goldenrod;
+            color: white;
+        }
+
+        .card-services h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+
+        .card-services:hover h3 {
+            color: goldenrod;
+        }
+
+        .card-services p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeUp-services {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        section.testimonials-testimonials {
+            padding: 100px 20px;
+        }
+
+        .header-testimonials {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp-testimonials 0.8s forwards;
+        }
+
+        .header-testimonials span {
+            color: goldenrod;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .header-testimonials h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .header-testimonials h2 span {
+            font-style: italic;
+        }
+
+        /* Grid */
+        .grid-testimonials {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media(min-width:768px) {
+            .grid-testimonials {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .card-testimonials {
+            position: relative;
+            background: #fdfaf6;
+            /* bg-cream */
+            padding: 40px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp-testimonials 0.6s forwards;
+        }
+
+        .quote-testimonials {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            color: rgba(218, 165, 32, 0.2);
+            /* gold/20 */
+        }
+
+        .stars-testimonials {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .stars-testimonials span {
+            color: goldenrod;
+            font-size: 16px;
+        }
+
+        .card-testimonials p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-testimonials {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .footer-testimonials p {
+            margin: 5px 0;
+        }
+
+        .footer-testimonials .name-testimonials {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .footer-testimonials .location-testimonials {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @keyframes fadeUp-testimonials {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        footer {
+            background: #000000;
+            /* azul primario */
+            color: white;
+            padding: 60px 20px 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media(min-width:768px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(min-width:1024px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 18px;
+        }
+
+        .social-links a:hover {
+            background: white;
+            color: #3498db;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid white;
+            margin: 40px 0 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .footer-bottom a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-bottom a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+
+
+        header { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        right: 0;
+        z-index: 50; 
+        transition: all 0.5s ease; 
+        background: #000; 
+        padding: 20px 0; /* Ajustado para mejor control */
+    } 
+
+    header.scrolled { 
+        background: rgba(0, 0, 0, 0.95); 
+        backdrop-filter: blur(6px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+        padding: 10px 0; 
+    } 
+
+    /* Contenedor centralizado para mantener el alineamiento */
+    header .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between; /* LOGO A LA IZQUIERDA, MENÚ A LA DERECHA */
+        align-items: center;
+    }
+
+    nav { 
+        display: flex; 
+        align-items: center;
+        width: 100%; /* Asegura que ocupe todo el espacio del container */
+        justify-content: space-between; 
+    } 
+
+    .logo a {
+        display: flex;
+        align-items: center;
+    }
+
+    nav img { 
+        height: 50px; /* Tamaño ajustado para desktop */
+        width: auto; 
+    } 
+
+    ul.desktop { 
+        display: none; /* Oculto en móviles */
+        list-style: none; 
+        margin: 0; 
+        padding: 0;
+        gap: 30px; 
+    } 
+
+    /* ... (resto del CSS de desktop links) ... */
+
+    @media(min-width:768px) { 
+        .menu-btn { display: none; } 
+        ul.desktop { 
+            display: flex; /* Se muestra en desktop */
+        } 
+        .mobile-menu { display: none; } 
+    }
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+
+
+    <header id="header"> 
+        <div class="container"> 
+            <nav> 
+                <div class="logo"> 
+                    <a href="#home"><img src="logo.jpg" alt="Decobay Interiors"></a> 
+                </div> 
+
+                <ul class="desktop"> 
+                    <li><a href="#home">Architectural Designs</a></li> 
+                    <li><a href="#about">Interior Designs</a></li> 
+                    <li><a href="#portfolio">Residential</a></li> 
+                    <li><a href="#services">Services</a></li> 
+                    <li><a href="#contact">Virtual Design</a></li> 
+                    <li><a href="#hikeq">HikeQ</a></li> 
+                </ul> 
+
+                <button class="menu-btn" id="menuBtn">&#9776;</button> 
+            </nav> 
+        </div> 
+        
+        <div class="mobile-menu" id="mobileMenu"> 
+            <ul> 
+                <li><a href="#home">Architectural Designs</a></li> 
+                <li><a href="#about">Interior Designs</a></li> 
+                <li><a href="#portfolio">Residential</a></li> 
+                <li><a href="#services">Services</a></li> 
+                <li><a href="#contact">Virtual Design</a></li> 
+                <li><a href="#hikeq">HikeQ</a></li> 
+            </ul> 
+        </div>
+    </header>
+
+
+
+
+    <!-- -----------------------------------HERO----------------------------------- -->
+
+
+
+    <section class="hero" id="home"> <!-- Fondo -->
+        <div class="hero-bg"> <img src="hero-bg.jpg" alt="Elegant living room interior"> </div> <!-- Contenido -->
+        <div class="hero-content"> <span>Architectural & Interior Design Firm</span>
+            <h1> Elevate Your <br> <span>Living Space</span> </h1>
+            <p> We create sophisticated, timeless interiors that reflect your unique style and transform your house into
+                a sanctuary of elegance. </p>
+            <div class="hero-buttons"> <a href="#portfolio" class="btn-primary">View Portfolio</a> <a href="#contact"
+                    class="btn-outline">Get in Touch</a> </div>
+        </div> <!-- Indicador scroll --> <a href="#about" class="scroll-indicator"> <span>⌄</span> </a>
+    </section>
+    <!-- 
+-----------------------------------------------About------------------------------------------ -->
+
+
+    <section class="about" id="about">
+        <div class="container"> <!-- Imagen -->
+            <div class="image-wrapper" id="imageWrapper"> <img src="bedroom-interior.jpg" alt="Elegant bedroom design"
+                    id="parallaxImage">
+                <div class="decorative-frame"></div>
+            </div> <!-- Contenido -->
+            <div class="content" id="content"> <span>About Us</span>
+                <h2> Designing Dreams,<br> <span>Creating Homes</span> </h2>
+                <div class="divider"></div>
+                <p> At Decobay Interiors, we believe that your home should be a reflection of your personality—a
+                    sanctuary where beauty meets functionality. Based in sunny California, our team of passionate
+                    designers brings together years of expertise and a keen eye for timeless elegance. </p>
+                <p> Whether you're looking to redesign a single room or transform your entire home, we work closely with
+                    you to understand your vision and bring it to life with meticulous attention to detail and a
+                    commitment to excellence. </p> <!-- Stats -->
+                <div class="stats">
+                    <div class="stat" id="stat1">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat" id="stat2">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Years</div>
+                    </div>
+                    <div class="stat" id="stat3">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <!-- -----------------------------------------------PORTFOLIO----------------------------------- -->
+
+
+
+    <section class="portfolio-portfolio" id="portfolio"> <!-- Header -->
+        <div class="header-portfolio"> <span>Our Work</span>
+            <h2> Featured Projects</h2>
+            <p>Explore our portfolio of thoughtfully designed spaces that blend functionality with timeless beauty.</p>
+        </div> <!-- Carousel -->
+        <div class="carousel-portfolio">
+            <div class="carousel-track-portfolio" id="carouselTrack">
+                <div class="slide-portfolio"> <img src="project-1.jpg" alt="Modern Living"> <span>Living Room</span>
+                    <h3>Modern Living</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="project-2.jpg" alt="Coastal Elegance"> <span>Full Home</span>
+                    <h3>Coastal Elegance</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="project-3.jpg" alt="Urban Retreat"> <span>Bedroom</span>
+                    <h3>Urban Retreat</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="project-4.jpg" alt="Timeless Charm"> <span>Living Room</span>
+                    <h3>Timeless Charm</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="project-5.jpg" alt="Contemporary Bliss"> <span>Kitchen</span>
+                    <h3>Contemporary Bliss</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="project-6.jpg" alt="Kitchen Renovation"> <span>Kitchen</span>
+                    <h3>Kitchen Renovation</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="project-7.jpg" alt="Serene Spaces"> <span>Bedroom</span>
+                    <h3>Serene Spaces</h3>
+                </div>
+                <div class="slide-portfolio"> <img src="bathroom-interior.jpg" alt="Spa Bathroom"> <span>Bathroom</span>
+                    <h3>Spa Bathroom</h3>
+                </div>
+            </div>
+        </div> <!-- Navigation -->
+        <div class="nav-buttons-portfolio"> <button id="prevBtn">&#10094;</button> <button
+                id="nextBtn">&#10095;</button> </div> <!-- Dots -->
+        <div class="dots-portfolio" id="dots"></div>
+    </section>
+
+
+
+
+
+    <!-- ----------------------------------------------------SERVICES----------------------------------- -->
+
+
+
+    <section class="services-services" id="services">
+        <div class="header-services"> <span>What We Offer</span>
+            <h2>Our Services</h2>
+            <p>From concept to completion, we offer comprehensive interior design services tailored to your unique needs
+                and vision.</p>
+        </div>
+        <div class="grid-services">
+            <div class="card-services">
+                <div class="icon-services">🏠</div>
+                <h3>Full Home Design</h3>
+                <p>Complete interior design services for your entire home, creating cohesive and harmonious spaces
+                    throughout.</p>
+            </div>
+            <div class="card-services">
+                <div class="icon-services">🛋️</div>
+                <h3>Room Redesign</h3>
+                <p>Transform individual rooms with fresh layouts, furniture selections, and decorative elements.</p>
+            </div>
+            <div class="card-services">
+                <div class="icon-services">🎨</div>
+                <h3>Color Consultation</h3>
+                <p>Expert color palette development to set the perfect mood and atmosphere for your spaces.</p>
+            </div>
+            <div class="card-services">
+                <div class="icon-services">💡</div>
+                <h3>Lighting Design</h3>
+                <p>Strategic lighting solutions that enhance ambiance and highlight architectural features.</p>
+            </div>
+            <div class="card-services">
+                <div class="icon-services">🌸</div>
+                <h3>Kitchen & Bath</h3>
+                <p>Specialized design for kitchens and bathrooms, combining functionality with luxury finishes.</p>
+            </div>
+            <div class="card-services">
+                <div class="icon-services">✨</div>
+                <h3>Staging Services</h3>
+                <p>Professional home staging to maximize appeal and value for real estate listings.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ----------------------------------------------------TESTIMONIALS----------------------------------- -->
+
+
+    <section class="testimonials-testimonials" id="testimonials">
+        <div class="header-testimonials"> <span>Client Love</span>
+            <h2>What They Say</h2>
+        </div>
+        <div class="grid-testimonials">
+            <div class="card-testimonials">
+                <div class="quote-testimonials">❝</div>
+                <div class="stars-testimonials"> <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p>"Decobay Interiors transformed our home beyond our wildest dreams. Their attention to detail and
+                    understanding of our vision was exceptional. Every room feels like a work of art."</p>
+                <div class="footer-testimonials">
+                    <p class="name-testimonials">Sarah Mitchell</p>
+                    <p class="location-testimonials">Los Angeles, CA</p>
+                </div>
+            </div>
+            <div class="card-testimonials">
+                <div class="quote-testimonials">❝</div>
+                <div class="stars-testimonials"> <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p>"Working with the Decobay team was an absolute pleasure. They listened to our needs and created
+                    spaces that are both beautiful and functional. Highly recommend!"</p>
+                <div class="footer-testimonials">
+                    <p class="name-testimonials">Emily Richardson</p>
+                    <p class="location-testimonials">San Francisco, CA</p>
+                </div>
+            </div>
+            <div class="card-testimonials">
+                <div class="quote-testimonials">❝</div>
+                <div class="stars-testimonials"> <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p>"The kitchen and bathroom remodel exceeded all expectations. The design is timeless and the quality
+                    of work is outstanding. We love our new home!"</p>
+                <div class="footer-testimonials">
+                    <p class="name-testimonials">Jessica Chen</p>
+                    <p class="location-testimonials">San Diego, CA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ----------------------------------------------------FOOTER---------------------------------------------------- -->
+
+
+
+    <footer>
+        <div class="footer-container"> <!-- Logo & Social -->
+            <div class="footer-section">
+                <h4>DECOBAY Designs</h4>
+                <p>Transforming spaces into elegant sanctuaries. Based in California, serving clients nationwide with
+                    timeless interior design.</p>
+                <div class="social-links">
+  <a href="#" aria-label="Instagram">
+    <img src="Instagram.jpg" alt="Instagram" style="width:40px; height:40px; border-radius:50%;">
+  </a>
+  <a href="#" aria-label="Facebook">
+    <img src="Facebook.png" alt="Facebook" style="width:40px; height:40px; border-radius:50%;">
+  </a>
+</div>
+
+            </div> <!-- Quick Links -->
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li>About Us</li>
+                    <li>Our Portfolio</li>
+                    <li>Services</li>
+                    <li>Process</li>
+                    <li>Contact</li>
+
+                </ul>
+            </div> <!-- Services -->
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li>Full Home Design</li>
+                    <li>Room Design</li>
+                    <li>Kitchen Remodel</li>
+                    <li>Bathroom Design</li>
+                    <li>Color Consultation</li>
+                </ul>
+            </div> <!-- Contact -->
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>📍 California, United States</li>
+                    <li>📞 (123) 456-7890</li>
+                    <li>✉️ hello@decobayinteriors.com</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="footer-bottom">
+            <p>© 2026 Decobay Interiors. All rights reserved.</p> <a href="#">Privacy Policy</a> | <a href="#">Terms of
+                Service</a>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        // const header = document.getElementById('header');
+        // const menuBtn = document.getElementById('menuBtn');
+        // const mobileMenu = document.getElementById('mobileMenu');
+
+        // // Detect scroll
+        // window.addEventListener('scroll', () => {
+        //     if (window.scrollY > 50) {
+        //         header.classList.add('scrolled');
+        //     } else {
+        //         header.classList.remove('scrolled');
+        //     }
+        // });
+
+        // // Toggle mobile menu
+        // menuBtn.addEventListener('click', () => {
+        //     mobileMenu.classList.toggle('open');
+        //     menuBtn.textContent = mobileMenu.classList.contains('open') ? '✖' : '☰';
+        // });
+
+
+        const header = document.getElementById('header');
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        // Detect scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Toggle mobile menu
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            menuBtn.textContent = mobileMenu.classList.contains('open') ? '✖' : '☰';
+        });
+
+
+
+
+        const imageWrapper = document.getElementById('imageWrapper');
+        const content = document.getElementById('content');
+        const stats = [document.getElementById('stat1'), document.getElementById('stat2'), document.getElementById('stat3')];
+        const parallaxImage = document.getElementById('parallaxImage');
+
+        function handleScroll() {
+            const rect = imageWrapper.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) {
+                imageWrapper.classList.add('visible');
+                content.classList.add('visible');
+                stats.forEach((stat, i) => {
+                    setTimeout(() => stat.classList.add('visible'), 400 + i * 100);
+                });
+            }
+
+            // Parallax efecto
+            const scrollPercent = rect.top / window.innerHeight;
+            parallaxImage.style.transform = `translateY(${scrollPercent * 20}px)`;
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', handleScroll);
+
+
+
+
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.slide-portfolio');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dots');
+
+        let index = 0;
+
+        // Crear dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            if (i === 0) dot.classList.add('active-portfolio');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll('button');
+
+        function updateCarousel() {
+            const slideWidth = slides[0].getBoundingClientRect().width + 20;
+            track.style.transform = `translateX(-${index * slideWidth}px)`;
+            dots.forEach(dot => dot.classList.remove('active-portfolio'));
+            dots[index].classList.add('active-portfolio');
+        }
+
+        function goToSlide(i) {
+            index = i;
+            updateCarousel();
+        }
+
+        prevBtn.addEventListener('click', () => {
+            index = (index > 0) ? index - 1 : slides.length - 1;
+            updateCarousel();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            index = (index < slides.length - 1) ? index + 1 : 0;
+            updateCarousel();
+        });
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
